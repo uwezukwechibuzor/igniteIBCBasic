@@ -52451,6 +52451,8 @@ definitions:
     title: >-
       SignatureCounts contains information about signature reporting for a
       number of blocks
+  uwezukwechibuzor.planet.blog.MsgSendIbcPostResponse:
+    type: object
   uwezukwechibuzor.planet.blog.Params:
     type: object
     description: Params defines the parameters for the module.

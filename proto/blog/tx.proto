@@ -7,7 +7,19 @@ option go_package = "github.com/uwezukwechibuzor/planet/x/blog/types";
 
 // Msg defines the Msg service.
 service Msg {
-    // this line is used by starport scaffolding # proto/tx/rpc
+      rpc SendIbcPost(MsgSendIbcPost) returns (MsgSendIbcPostResponse);
+// this line is used by starport scaffolding # proto/tx/rpc
 }
 
+message MsgSendIbcPost {
+  string creator = 1;
+  string port = 2;
+  string channelID = 3;
+  uint64 timeoutTimestamp = 4;
+  string title = 5;
+  string content = 6;
+}
+
+message MsgSendIbcPostResponse {
+}
 // this line is used by starport scaffolding # proto/tx/message

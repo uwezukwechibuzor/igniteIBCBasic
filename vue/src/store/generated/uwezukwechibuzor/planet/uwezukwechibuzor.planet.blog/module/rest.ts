@@ -9,6 +9,8 @@
  * ---------------------------------------------------------------
  */
 
+export type BlogMsgSendIbcPostResponse = object;
+
 /**
  * Params defines the parameters for the module.
  */
