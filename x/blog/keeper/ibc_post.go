@@ -2,6 +2,8 @@ package keeper
 
 import (
 	"errors"
+	"strconv"
+
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
@@ -68,48 +70,63 @@ func (k Keeper) TransmitIbcPostPacket(
 
 // OnRecvIbcPostPacket processes packet reception
 func (k Keeper) OnRecvIbcPostPacket(ctx sdk.Context, packet channeltypes.Packet, data types.IbcPostPacketData) (packetAck types.IbcPostPacketAck, err error) {
-	// validate packet data upon receiving
-	if err := data.ValidateBasic(); err != nil {
-		return packetAck, err
-	}
-
-	// TODO: packet reception logic
-
-	return packetAck, nil
+    // validate packet data upon receiving
+    if err := data.ValidateBasic(); err != nil {
+        return packetAck, err
+    }
+    id := k.AppendPost(
+        ctx,
+        types.Post{
+            Creator: packet.SourcePort+"-"+packet.SourceChannel+"-"+data.Creator,
+            Title: data.Title,
+            Content: data.Content,
+        },
+    )
+    packetAck.PostID = strconv.FormatUint(id, 10)
+    return packetAck, nil
 }
 
 // OnAcknowledgementIbcPostPacket responds to the the success or failure of a packet
 // acknowledgement written on the receiving chain.
+// x/blog/keeper/ibc_post.go
 func (k Keeper) OnAcknowledgementIbcPostPacket(ctx sdk.Context, packet channeltypes.Packet, data types.IbcPostPacketData, ack channeltypes.Acknowledgement) error {
-	switch dispatchedAck := ack.Response.(type) {
-	case *channeltypes.Acknowledgement_Error:
+    switch dispatchedAck := ack.Response.(type) {
+    case *channeltypes.Acknowledgement_Error:
+        // We will not treat acknowledgment error in this tutorial
+        return nil
+    case *channeltypes.Acknowledgement_Result:
+        // Decode the packet acknowledgment
+        var packetAck types.IbcPostPacketAck
 
-		// TODO: failed acknowledgement logic
-		_ = dispatchedAck.Error
-
-		return nil
-	case *channeltypes.Acknowledgement_Result:
-		// Decode the packet acknowledgment
-		var packetAck types.IbcPostPacketAck
-
-		if err := types.ModuleCdc.UnmarshalJSON(dispatchedAck.Result, &packetAck); err != nil {
-			// The counter-party module doesn't implement the correct acknowledgment format
-			return errors.New("cannot unmarshal acknowledgment")
-		}
-
-		// TODO: successful acknowledgement logic
-
-		return nil
-	default:
-		// The counter-party module doesn't implement the correct acknowledgment format
-		return errors.New("invalid acknowledgment format")
-	}
+        if err := types.ModuleCdc.UnmarshalJSON(dispatchedAck.Result, &packetAck); err != nil {
+            // The counter-party module doesn't implement the correct acknowledgment format
+            return errors.New("cannot unmarshal acknowledgment")
+        }
+        k.AppendSentPost(
+            ctx,
+            types.SentPost{
+                Creator: data.Creator,
+                PostID:  packetAck.PostID,
+                Title:   data.Title,
+                Chain:   packet.DestinationPort + "-" + packet.DestinationChannel,
+            },
+        )
+        return nil
+    default:
+        return errors.New("the counter-party module does not implement the correct acknowledgment format")
+    }
 }
 
 // OnTimeoutIbcPostPacket responds to the case where a packet has not been transmitted because of a timeout
+// x/blog/keeper/ibc_post.go
 func (k Keeper) OnTimeoutIbcPostPacket(ctx sdk.Context, packet channeltypes.Packet, data types.IbcPostPacketData) error {
-
-	// TODO: packet timeout logic
-
-	return nil
+    k.AppendTimedoutPost(
+        ctx,
+        types.TimedoutPost{
+            Creator: data.Creator,
+            Title:   data.Title,
+            Chain:   packet.DestinationPort + "-" + packet.DestinationChannel,
+        },
+    )
+    return nil
 }

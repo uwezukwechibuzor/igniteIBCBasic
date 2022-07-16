@@ -15,6 +15,7 @@ export interface NoData {}
 export interface IbcPostPacketData {
   title: string;
   content: string;
+  creator: string;
 }
 
 /** IbcPostPacketAck defines a struct for the packet acknowledgment */
@@ -144,7 +145,7 @@ export const NoData = {
   },
 };
 
-const baseIbcPostPacketData: object = { title: "", content: "" };
+const baseIbcPostPacketData: object = { title: "", content: "", creator: "" };
 
 export const IbcPostPacketData = {
   encode(message: IbcPostPacketData, writer: Writer = Writer.create()): Writer {
@@ -153,6 +154,9 @@ export const IbcPostPacketData = {
     }
     if (message.content !== "") {
       writer.uint32(18).string(message.content);
+    }
+    if (message.creator !== "") {
+      writer.uint32(26).string(message.creator);
     }
     return writer;
   },
@@ -169,6 +173,9 @@ export const IbcPostPacketData = {
           break;
         case 2:
           message.content = reader.string();
+          break;
+        case 3:
+          message.creator = reader.string();
           break;
         default:
           reader.skipType(tag & 7);
@@ -190,6 +197,11 @@ export const IbcPostPacketData = {
     } else {
       message.content = "";
     }
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator);
+    } else {
+      message.creator = "";
+    }
     return message;
   },
 
@@ -197,6 +209,7 @@ export const IbcPostPacketData = {
     const obj: any = {};
     message.title !== undefined && (obj.title = message.title);
     message.content !== undefined && (obj.content = message.content);
+    message.creator !== undefined && (obj.creator = message.creator);
     return obj;
   },
 
@@ -211,6 +224,11 @@ export const IbcPostPacketData = {
       message.content = object.content;
     } else {
       message.content = "";
+    }
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = object.creator;
+    } else {
+      message.creator = "";
     }
     return message;
   },
