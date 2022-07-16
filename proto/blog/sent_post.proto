@@ -1,0 +1,13 @@
+syntax = "proto3";
+package uwezukwechibuzor.planet.blog;
+
+option go_package = "github.com/uwezukwechibuzor/planet/x/blog/types";
+
+message SentPost {
+  uint64 id = 1;
+  string postID = 2; 
+  string title = 3; 
+  string chain = 4; 
+  string creator = 5; 
+  
+}

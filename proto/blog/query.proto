@@ -5,6 +5,9 @@ import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "blog/params.proto";
+import "blog/post.proto";
+import "blog/sent_post.proto";
+import "blog/timedout_post.proto";
 // this line is used by starport scaffolding # 1
 
 option go_package = "github.com/uwezukwechibuzor/planet/x/blog/types";
@@ -15,7 +18,37 @@ service Query {
   rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
     option (google.api.http).get = "/uwezukwechibuzor/planet/blog/params";
   }
-  // this line is used by starport scaffolding # 2
+  // Queries a Post by id.
+	rpc Post(QueryGetPostRequest) returns (QueryGetPostResponse) {
+		option (google.api.http).get = "/uwezukwechibuzor/planet/blog/post/{id}";
+	}
+
+	// Queries a list of Post items.
+	rpc PostAll(QueryAllPostRequest) returns (QueryAllPostResponse) {
+		option (google.api.http).get = "/uwezukwechibuzor/planet/blog/post";
+	}
+
+// Queries a SentPost by id.
+	rpc SentPost(QueryGetSentPostRequest) returns (QueryGetSentPostResponse) {
+		option (google.api.http).get = "/uwezukwechibuzor/planet/blog/sent_post/{id}";
+	}
+
+	// Queries a list of SentPost items.
+	rpc SentPostAll(QueryAllSentPostRequest) returns (QueryAllSentPostResponse) {
+		option (google.api.http).get = "/uwezukwechibuzor/planet/blog/sent_post";
+	}
+
+// Queries a TimedoutPost by id.
+	rpc TimedoutPost(QueryGetTimedoutPostRequest) returns (QueryGetTimedoutPostResponse) {
+		option (google.api.http).get = "/uwezukwechibuzor/planet/blog/timedout_post/{id}";
+	}
+
+	// Queries a list of TimedoutPost items.
+	rpc TimedoutPostAll(QueryAllTimedoutPostRequest) returns (QueryAllTimedoutPostResponse) {
+		option (google.api.http).get = "/uwezukwechibuzor/planet/blog/timedout_post";
+	}
+
+// this line is used by starport scaffolding # 2
 }
 
 // QueryParamsRequest is request type for the Query/Params RPC method.
@@ -25,6 +58,57 @@ message QueryParamsRequest {}
 message QueryParamsResponse {
   // params holds all the parameters of this module.
   Params params = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryGetPostRequest {
+	uint64 id = 1;
+}
+
+message QueryGetPostResponse {
+	Post Post = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllPostRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllPostResponse {
+	repeated Post Post = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetSentPostRequest {
+	uint64 id = 1;
+}
+
+message QueryGetSentPostResponse {
+	SentPost SentPost = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllSentPostRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllSentPostResponse {
+	repeated SentPost SentPost = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetTimedoutPostRequest {
+	uint64 id = 1;
+}
+
+message QueryGetTimedoutPostResponse {
+	TimedoutPost TimedoutPost = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllTimedoutPostRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllTimedoutPostResponse {
+	repeated TimedoutPost TimedoutPost = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
 // this line is used by starport scaffolding # 3

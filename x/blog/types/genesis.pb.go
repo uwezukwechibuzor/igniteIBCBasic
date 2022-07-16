@@ -25,8 +25,14 @@ const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
 // GenesisState defines the blog module's genesis state.
 type GenesisState struct {
-	Params Params `protobuf:"bytes,1,opt,name=params,proto3" json:"params"`
-	PortId string `protobuf:"bytes,2,opt,name=port_id,json=portId,proto3" json:"port_id,omitempty"`
+	Params            Params         `protobuf:"bytes,1,opt,name=params,proto3" json:"params"`
+	PortId            string         `protobuf:"bytes,2,opt,name=port_id,json=portId,proto3" json:"port_id,omitempty"`
+	PostList          []Post         `protobuf:"bytes,3,rep,name=postList,proto3" json:"postList"`
+	PostCount         uint64         `protobuf:"varint,4,opt,name=postCount,proto3" json:"postCount,omitempty"`
+	SentPostList      []SentPost     `protobuf:"bytes,5,rep,name=sentPostList,proto3" json:"sentPostList"`
+	SentPostCount     uint64         `protobuf:"varint,6,opt,name=sentPostCount,proto3" json:"sentPostCount,omitempty"`
+	TimedoutPostList  []TimedoutPost `protobuf:"bytes,7,rep,name=timedoutPostList,proto3" json:"timedoutPostList"`
+	TimedoutPostCount uint64         `protobuf:"varint,8,opt,name=timedoutPostCount,proto3" json:"timedoutPostCount,omitempty"`
 }
 
 func (m *GenesisState) Reset()         { *m = GenesisState{} }
@@ -76,6 +82,48 @@ func (m *GenesisState) GetPortId() string {
 	return ""
 }
 
+func (m *GenesisState) GetPostList() []Post {
+	if m != nil {
+		return m.PostList
+	}
+	return nil
+}
+
+func (m *GenesisState) GetPostCount() uint64 {
+	if m != nil {
+		return m.PostCount
+	}
+	return 0
+}
+
+func (m *GenesisState) GetSentPostList() []SentPost {
+	if m != nil {
+		return m.SentPostList
+	}
+	return nil
+}
+
+func (m *GenesisState) GetSentPostCount() uint64 {
+	if m != nil {
+		return m.SentPostCount
+	}
+	return 0
+}
+
+func (m *GenesisState) GetTimedoutPostList() []TimedoutPost {
+	if m != nil {
+		return m.TimedoutPostList
+	}
+	return nil
+}
+
+func (m *GenesisState) GetTimedoutPostCount() uint64 {
+	if m != nil {
+		return m.TimedoutPostCount
+	}
+	return 0
+}
+
 func init() {
 	proto.RegisterType((*GenesisState)(nil), "uwezukwechibuzor.planet.blog.GenesisState")
 }
@@ -83,21 +131,31 @@ func init() {
 func init() { proto.RegisterFile("blog/genesis.proto", fileDescriptor_087544457035c34f) }
 
 var fileDescriptor_087544457035c34f = []byte{
-	// 223 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x12, 0x4a, 0xca, 0xc9, 0x4f,
-	0xd7, 0x4f, 0x4f, 0xcd, 0x4b, 0x2d, 0xce, 0x2c, 0xd6, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0x92,
-	0x29, 0x2d, 0x4f, 0xad, 0x2a, 0xcd, 0x2e, 0x4f, 0x4d, 0xce, 0xc8, 0x4c, 0x2a, 0xad, 0xca, 0x2f,
-	0xd2, 0x2b, 0xc8, 0x49, 0xcc, 0x4b, 0x2d, 0xd1, 0x03, 0xa9, 0x95, 0x12, 0x49, 0xcf, 0x4f, 0xcf,
-	0x07, 0x2b, 0xd4, 0x07, 0xb1, 0x20, 0x7a, 0xa4, 0x04, 0xc1, 0xe6, 0x14, 0x24, 0x16, 0x25, 0xe6,
-	0x42, 0x8d, 0x51, 0xca, 0xe6, 0xe2, 0x71, 0x87, 0x98, 0x1b, 0x5c, 0x92, 0x58, 0x92, 0x2a, 0xe4,
-	0xc4, 0xc5, 0x06, 0x91, 0x97, 0x60, 0x54, 0x60, 0xd4, 0xe0, 0x36, 0x52, 0xd1, 0xc3, 0x67, 0x8f,
-	0x5e, 0x00, 0x58, 0xad, 0x13, 0xcb, 0x89, 0x7b, 0xf2, 0x0c, 0x41, 0x50, 0x9d, 0x42, 0xe2, 0x5c,
-	0xec, 0x05, 0xf9, 0x45, 0x25, 0xf1, 0x99, 0x29, 0x12, 0x4c, 0x0a, 0x8c, 0x1a, 0x9c, 0x41, 0x6c,
-	0x20, 0xae, 0x67, 0x8a, 0x93, 0xe7, 0x89, 0x47, 0x72, 0x8c, 0x17, 0x1e, 0xc9, 0x31, 0x3e, 0x78,
-	0x24, 0xc7, 0x38, 0xe1, 0xb1, 0x1c, 0xc3, 0x85, 0xc7, 0x72, 0x0c, 0x37, 0x1e, 0xcb, 0x31, 0x44,
-	0xe9, 0xa7, 0x67, 0x96, 0x64, 0x94, 0x26, 0xe9, 0x25, 0xe7, 0xe7, 0xea, 0xa3, 0x5b, 0xa8, 0x0f,
-	0xb1, 0x50, 0xbf, 0x42, 0x1f, 0xec, 0xfc, 0x92, 0xca, 0x82, 0xd4, 0xe2, 0x24, 0x36, 0xb0, 0xf3,
-	0x8d, 0x01, 0x01, 0x00, 0x00, 0xff, 0xff, 0x54, 0xa5, 0xfb, 0x02, 0x1b, 0x01, 0x00, 0x00,
+	// 369 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x84, 0x92, 0xd1, 0x6a, 0xea, 0x30,
+	0x1c, 0xc6, 0x9b, 0xa3, 0xa7, 0x6a, 0xf4, 0x70, 0x66, 0x10, 0x56, 0x44, 0xba, 0x22, 0x32, 0xca,
+	0x18, 0x0d, 0xb8, 0x37, 0x70, 0x83, 0x21, 0xec, 0x42, 0x74, 0x57, 0x63, 0x20, 0xad, 0x86, 0x5a,
+	0xa6, 0x4d, 0x69, 0x52, 0xdc, 0x7c, 0x8a, 0x3d, 0x96, 0x97, 0xc2, 0x6e, 0x76, 0x35, 0x86, 0xbe,
+	0xc8, 0x68, 0x12, 0x5d, 0x9d, 0xe0, 0xee, 0x92, 0x2f, 0xff, 0xef, 0xfb, 0x7d, 0x2d, 0x7f, 0x88,
+	0xbc, 0x29, 0xf5, 0xb1, 0x4f, 0x42, 0xc2, 0x02, 0xe6, 0x44, 0x31, 0xe5, 0x14, 0x35, 0x92, 0x39,
+	0x59, 0x24, 0x4f, 0x73, 0x32, 0x9a, 0x04, 0x5e, 0xb2, 0xa0, 0xb1, 0x13, 0x4d, 0xdd, 0x90, 0x70,
+	0x27, 0x9d, 0xad, 0xd7, 0x7c, 0xea, 0x53, 0x31, 0x88, 0xd3, 0x93, 0xf4, 0xd4, 0xab, 0x22, 0x27,
+	0x72, 0x63, 0x77, 0xa6, 0x62, 0xea, 0xff, 0xa5, 0x44, 0x19, 0x57, 0x42, 0x4d, 0x08, 0x8c, 0x84,
+	0x7c, 0x98, 0x51, 0x0d, 0xa1, 0xf2, 0x60, 0x46, 0xc6, 0x34, 0xc9, 0xbe, 0x34, 0xdf, 0x72, 0xb0,
+	0x72, 0x2b, 0x9b, 0x0d, 0xb8, 0xcb, 0x09, 0xea, 0x40, 0x5d, 0x12, 0x0c, 0x60, 0x01, 0xbb, 0xdc,
+	0x6e, 0x39, 0xc7, 0x9a, 0x3a, 0x3d, 0x31, 0xdb, 0xc9, 0x2f, 0x3f, 0xce, 0xb4, 0xbe, 0x72, 0xa2,
+	0x53, 0x58, 0x88, 0x68, 0xcc, 0x87, 0xc1, 0xd8, 0xf8, 0x63, 0x01, 0xbb, 0xd4, 0xd7, 0xd3, 0x6b,
+	0x77, 0x8c, 0x6e, 0x60, 0x31, 0x65, 0xdf, 0x05, 0x8c, 0x1b, 0x39, 0x2b, 0x67, 0x97, 0xdb, 0xcd,
+	0x5f, 0xe2, 0x29, 0xe3, 0x2a, 0x7c, 0xe7, 0x44, 0x0d, 0x58, 0x4a, 0xcf, 0xd7, 0x34, 0x09, 0xb9,
+	0x91, 0xb7, 0x80, 0x9d, 0xef, 0x7f, 0x0b, 0xa8, 0x07, 0x2b, 0xe9, 0xe7, 0xf7, 0xb6, 0x9c, 0xbf,
+	0x82, 0x73, 0x7e, 0x9c, 0x33, 0x50, 0x0e, 0xc5, 0xda, 0x4b, 0x40, 0x2d, 0xf8, 0x6f, 0x7b, 0x97,
+	0x4c, 0x5d, 0x30, 0xf7, 0x45, 0xf4, 0x08, 0x4f, 0xb6, 0x3f, 0x78, 0xc7, 0x2e, 0x08, 0xf6, 0xc5,
+	0x71, 0xf6, 0x7d, 0xc6, 0xa5, 0xf8, 0x07, 0x49, 0xe8, 0x12, 0x56, 0xb3, 0x9a, 0xec, 0x51, 0x14,
+	0x3d, 0x0e, 0x1f, 0x3a, 0xdd, 0xe5, 0xda, 0x04, 0xab, 0xb5, 0x09, 0x3e, 0xd7, 0x26, 0x78, 0xdd,
+	0x98, 0xda, 0x6a, 0x63, 0x6a, 0xef, 0x1b, 0x53, 0x7b, 0xc0, 0x7e, 0xc0, 0x27, 0x89, 0xe7, 0x8c,
+	0xe8, 0x0c, 0xff, 0x6c, 0x85, 0x65, 0x2b, 0xfc, 0x8c, 0xe5, 0xba, 0xbc, 0x44, 0x84, 0x79, 0xba,
+	0xd8, 0x93, 0xab, 0xaf, 0x00, 0x00, 0x00, 0xff, 0xff, 0xea, 0x85, 0x67, 0xef, 0xc5, 0x02, 0x00,
+	0x00,
 }
 
 func (m *GenesisState) Marshal() (dAtA []byte, err error) {
@@ -120,6 +178,63 @@ func (m *GenesisState) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if m.TimedoutPostCount != 0 {
+		i = encodeVarintGenesis(dAtA, i, uint64(m.TimedoutPostCount))
+		i--
+		dAtA[i] = 0x40
+	}
+	if len(m.TimedoutPostList) > 0 {
+		for iNdEx := len(m.TimedoutPostList) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.TimedoutPostList[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintGenesis(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0x3a
+		}
+	}
+	if m.SentPostCount != 0 {
+		i = encodeVarintGenesis(dAtA, i, uint64(m.SentPostCount))
+		i--
+		dAtA[i] = 0x30
+	}
+	if len(m.SentPostList) > 0 {
+		for iNdEx := len(m.SentPostList) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.SentPostList[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintGenesis(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0x2a
+		}
+	}
+	if m.PostCount != 0 {
+		i = encodeVarintGenesis(dAtA, i, uint64(m.PostCount))
+		i--
+		dAtA[i] = 0x20
+	}
+	if len(m.PostList) > 0 {
+		for iNdEx := len(m.PostList) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.PostList[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintGenesis(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0x1a
+		}
+	}
 	if len(m.PortId) > 0 {
 		i -= len(m.PortId)
 		copy(dAtA[i:], m.PortId)
@@ -162,6 +277,33 @@ func (m *GenesisState) Size() (n int) {
 	l = len(m.PortId)
 	if l > 0 {
 		n += 1 + l + sovGenesis(uint64(l))
+	}
+	if len(m.PostList) > 0 {
+		for _, e := range m.PostList {
+			l = e.Size()
+			n += 1 + l + sovGenesis(uint64(l))
+		}
+	}
+	if m.PostCount != 0 {
+		n += 1 + sovGenesis(uint64(m.PostCount))
+	}
+	if len(m.SentPostList) > 0 {
+		for _, e := range m.SentPostList {
+			l = e.Size()
+			n += 1 + l + sovGenesis(uint64(l))
+		}
+	}
+	if m.SentPostCount != 0 {
+		n += 1 + sovGenesis(uint64(m.SentPostCount))
+	}
+	if len(m.TimedoutPostList) > 0 {
+		for _, e := range m.TimedoutPostList {
+			l = e.Size()
+			n += 1 + l + sovGenesis(uint64(l))
+		}
+	}
+	if m.TimedoutPostCount != 0 {
+		n += 1 + sovGenesis(uint64(m.TimedoutPostCount))
 	}
 	return n
 }
@@ -266,6 +408,165 @@ func (m *GenesisState) Unmarshal(dAtA []byte) error {
 			}
 			m.PortId = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field PostList", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowGenesis
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthGenesis
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthGenesis
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.PostList = append(m.PostList, Post{})
+			if err := m.PostList[len(m.PostList)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 4:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field PostCount", wireType)
+			}
+			m.PostCount = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowGenesis
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.PostCount |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 5:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field SentPostList", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowGenesis
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthGenesis
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthGenesis
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.SentPostList = append(m.SentPostList, SentPost{})
+			if err := m.SentPostList[len(m.SentPostList)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 6:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field SentPostCount", wireType)
+			}
+			m.SentPostCount = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowGenesis
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.SentPostCount |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 7:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field TimedoutPostList", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowGenesis
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthGenesis
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthGenesis
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.TimedoutPostList = append(m.TimedoutPostList, TimedoutPost{})
+			if err := m.TimedoutPostList[len(m.TimedoutPostList)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 8:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field TimedoutPostCount", wireType)
+			}
+			m.TimedoutPostCount = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowGenesis
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.TimedoutPostCount |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
 		default:
 			iNdEx = preIndex
 			skippy, err := skipGenesis(dAtA[iNdEx:])

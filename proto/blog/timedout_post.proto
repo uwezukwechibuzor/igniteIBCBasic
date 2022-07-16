@@ -1,0 +1,12 @@
+syntax = "proto3";
+package uwezukwechibuzor.planet.blog;
+
+option go_package = "github.com/uwezukwechibuzor/planet/x/blog/types";
+
+message TimedoutPost {
+  uint64 id = 1;
+  string title = 2; 
+  string chain = 3; 
+  string creator = 4; 
+  
+}
