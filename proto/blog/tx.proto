@@ -1,0 +1,13 @@
+syntax = "proto3";
+package uwezukwechibuzor.planet.blog;
+
+// this line is used by starport scaffolding # proto/tx/import
+
+option go_package = "github.com/uwezukwechibuzor/planet/x/blog/types";
+
+// Msg defines the Msg service.
+service Msg {
+    // this line is used by starport scaffolding # proto/tx/rpc
+}
+
+// this line is used by starport scaffolding # proto/tx/message
